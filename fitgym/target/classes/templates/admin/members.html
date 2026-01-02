@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Member | FitGym</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4>Add New Member</h4>
+                </div>x
+
+                <div class="card-body">
+                    <form th:action="@{/admin/save-member}" th:object="${memberEntity}" method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" th:field="*{memberName}" placeholder="Enter name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" th:field="*{memberEmail}" placeholder="Enter email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="number" class="form-control" th:field="*{memberPhone}" placeholder="Enter phone" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <lablel class="form-label">Gym Plan</lablel>
+
+                            <select class="form-select" th:field = "*{gymPlan}" required>
+                                <option value="" disabled selected>-- Select Plan --</option>
+                                <option value="1 month">1 Month</option>
+                                <option value="3 months">3 Months</option>
+                                <option value="6 months">6 Months</option>
+                                <option value="1 months">12 Months</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Total Amount (₹)</label>
+                            <input type="number" class="form-control" id="totalAmount" th:field="*{totalAmount}" oninput="calculateBalance()" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Paid Amount (₹)</label>
+                            <input type="number" class="form-control" id="paidAmount" th:field="*{paidAmount}" oninput="calculateBalance()" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Balance Amount (₹)</label>
+                            <input type="number" class="form-control" id="balanceAmount" th:field="*{paidBalance}" readonly>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                Add Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateBalance() {
+        const total = parseFloat(document.getElementById("totalAmount").value) || 0;
+        const paid = parseFloat(document.getElementById("paidAmount").value) || 0;
+
+        let balance = total - paid;
+        if (balance < 0) balance = 0;
+
+        document.getElementById("balanceAmount").value = balance;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

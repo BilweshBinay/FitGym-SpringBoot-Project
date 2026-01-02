@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - FitGym</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-self: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            width: 380px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        #otp-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3>Admin Login</h3>
+        <form action="/sendotp" method="post">
+
+            <div class="md-3">
+                <label class="form-label">Email ID</label>
+                <input type="email" name="adminEmail" class="form-control" required>
+            </div>
+
+            <div class="d-grid md-3">
+                <button class="btn btn-primary" type="submit">
+                    Send OTP
+                </button>
+            </div>
+        </form>
+
+        <div th:if="${session.otpSent}">
+            <form action="/verifyOtp" method="post">
+
+                <div class="md-3">
+                    <label class="form-label">Enter OTP</label>
+                    <input type="text" name="adminOtp" class="form-control" required>
+                </div>
+
+                <div class="d-grid">
+                    <button class="btn btn-success" type="submit">
+                        Verify OTP
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function sendotp(){
+            const email = document.getElementById("email").value;
+
+            if (email === "") {
+                alert("please enter Email Id");
+                return;
+            }
+
+            alter("OTP sent to"+email);
+
+            document.getElementById("otp-section").style.display = "block";
+        }
+
+        function verifyotp() {
+            const otp = document.getElementById("otp").value;
+
+            if (otp === "") {
+                alert("please enter OTP");
+                return;
+            }
+
+            alert("OTP Verified Successfully");
+        }
+    </script>
+</body>
+</html>
